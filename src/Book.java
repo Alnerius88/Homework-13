@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 public class Book {
     private String bookName;
     private Author bookAuthor;
@@ -16,14 +18,24 @@ public class Book {
     public void setPublicationYear (int pubYear) {
         this.publicationYear = pubYear;
     }
-    public String toString () {
-        return bookName + bookAuthor + publicationYear;
+
+    @Override
+    public String toString() {
+        return "Книга. " +
+                "Название: " + bookName +
+                " Автор: " + bookAuthor +
+                " Год издания: " + publicationYear;
     }
-    public int hashCode () {
-        int result1 = bookName == null ? 0 : bookName.hashCode();
-        //Я не понимаю, зачем эта строка и как она работает.
-        int result2 = bookAuthor.hashCode();
-        int result = result1 + result2 + publicationYear;
-        return result;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Book book = (Book) o;
+        return publicationYear == book.publicationYear && Objects.equals(bookName, book.bookName) && Objects.equals(bookAuthor, book.bookAuthor);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(bookName, bookAuthor, publicationYear);
     }
 }
